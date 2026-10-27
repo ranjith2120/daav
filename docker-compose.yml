@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-ruralnet}
+      MYSQL_USER: ${DB_USER:-ruralnet}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-change-me-locally}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-local-root-password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ruralnet_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  ruralnet_mysql:
